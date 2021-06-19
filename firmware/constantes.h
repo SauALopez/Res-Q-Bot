@@ -29,10 +29,10 @@
 /* VOLATILE VARIABLES FOR INTERUPTS */
 
 //RPM VARAIBLES
-volatile int RPM_RFW =0;
-volatile int RPM_LFW =0;
-volatile int RPM_RRW =0;
-volatile int RPM_LRW =0;
+volatile double RPM_RFW =0;
+volatile double RPM_LFW =0;
+volatile double RPM_RRW =0;
+volatile double RPM_LRW =0;
 //LAST MILLIS VARIABLES
 volatile long last_RFW=0;
 volatile long last_LFW=0;
@@ -43,3 +43,13 @@ volatile long last_LRW=0;
 double kp = 1;
 double ki = 1;
 double kd = 1;
+double SetRPM =75;
+
+double PWM_RFW=0;
+double PWM_LFW=0;
+double PWM_RRW=0;
+double PWM_LRW=0;
+
+#define SAMPLETIME 20
+
+

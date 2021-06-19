@@ -1,5 +1,3 @@
-
-
 /*
  *  ARDUINO BASE FIRMWARE FOR 
  *  RES-Q BOT
@@ -8,6 +6,13 @@
 */
 #include <PID_v1.h>
 #include "constantes.h"
+
+/* PID - OBJECTS FROM PID LIBRARY */
+PID RFW_PID(&RPM_RFW, &PWM_RFW, &SetRPM, kp, ki, kd, DIRECT);
+PID LFW_PID(&RPM_LFW, &PWM_LFW, &SetRPM, kp, ki, kd, DIRECT);
+PID RRW_PID(&RPM_RRW, &PWM_RRW, &SetRPM, kp, ki, kd, DIRECT);
+PID LRW_PID(&RPM_LRW, &PWM_LRW, &SetRPM, kp, ki, kd, DIRECT);
+
 void setup(){
     Serial.begin(115200);
     /* CONFIG INPUT PULLUPS FOR INTERRUPTIONS */
@@ -37,11 +42,48 @@ void setup(){
 
     pinMode(FW_LRW, OUTPUT);
     pinMode(BW_LRW, OUTPUT);
+
+
+    // MOVE FORDWARD
+    FW_ALL();
+    /*CONFIG PID OBJECTS OF THE WHEELS */
+
+    //FREQUENCY (ms) THAT THE PID CALCULATES 
+    //THE PWM FOR EACH WHEEL
+    RFW_PID.SetSampleTime(SAMPLETIME);
+    LFW_PID.SetSampleTime(SAMPLETIME);
+    RRW_PID.SetSampleTime(SAMPLETIME);
+    LRW_PID.SetSampleTime(SAMPLETIME);
+    //TURNING ON THE PID'S
+    RFW_PID.SetMode(AUTOMATIC);
+    LFW_PID.SetMode(AUTOMATIC);
+    RRW_PID.SetMode(AUTOMATIC);
+    LRW_PID.SetMode(AUTOMATIC);
 }
 
 void loop(){
-    Serial.println("Hola Mundo, DEBUG");
-    delay(10000);   
+    /* CALCULATE PWM WITH PID */
+    RFW_PID.Compute();
+    LFW_PID.Compute();
+    RRW_PID.Compute();
+    LRW_PID.Compute();
+
+    /*Serial DEBUG
+    Serial.println(PWM_LFW);
+    Serial.println(PWM_LRW);
+    Serial.println(PWM_RFW);
+    Serial.println(PWM_RRW);
+    delay(1000);
+    */
+
+    /* CHANGING PWM VALUE OF WHELS */
+    analogWrite(RFW, PWM_RFW);
+    analogWrite(LFW, PWM_LFW);
+    analogWrite(RRW, PWM_RRW);
+    analogWrite(LRW, PWM_LRW);
+
+
+   
 }
 
 
