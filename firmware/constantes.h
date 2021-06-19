@@ -14,17 +14,17 @@
 
 /* ENABLE PINS, FORDWARD & BACKWARD MOVEMENT */
 
-#define FW_RFW 9
-#define BW_RFW 8
+#define FW_RFW 9    //FORDWARD - RIGHT FRONT WHEEL
+#define BW_RFW 8    //BACKWARD - RIGHT FRONT WHEEL
 
-#define FW_LFW 7
-#define BW_LFW 6
+#define FW_LFW 7    //FORDWARD - LEFT FRONT WHEEL
+#define BW_LFW 6    //BACKWARD - LEFT FRONT WHEEL
 
-#define FW_RRW 5
-#define BW_RRW 4
+#define FW_RRW 5    //FORDWARD - RIGTH REAR WHEEL
+#define BW_RRW 4    //BACKWARD - RIGHT REAR WHEEL
 
-#define FW_LRW 3
-#define BW_LRW 2
+#define FW_LRW 3    //FORDWARD - LEFT REAR WHEEL
+#define BW_LRW 2    //BACKWARD - LEFT REAR WHEEL
 
 /* VOLATILE VARIABLES FOR INTERUPTS */
 
@@ -39,7 +39,7 @@ volatile long last_LFW=0;
 volatile long last_RRW=0;
 volatile long last_LRW=0;
 
-/* PID - CONTROL SYSTEM */
+/* PID - CONTROL SYSTEM VARIABLES */
 double kp = 1;
 double ki = 1;
 double kd = 1;
