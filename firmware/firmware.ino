@@ -7,6 +7,8 @@
 #include <PID_v1.h>
 #include "constantes.h"
 
+
+
 /* PID - OBJECTS FROM PID LIBRARY */
 PID RFW_PID(&RPM_RFW, &PWM_RFW, &SetRPM, kp, ki, kd, DIRECT);
 PID LFW_PID(&RPM_LFW, &PWM_LFW, &SetRPM, kp, ki, kd, DIRECT);
@@ -68,22 +70,24 @@ void setup(){
 }
 
 void loop(){
-
+    FW_ALL();
     /* POLLING SENSOR PINS */
-
     if(!digitalRead(RF_SENSOR)){
         Serial.println("Sensor frontal derecho");
+        LEFT_TURN();
     }
     if(!digitalRead(LF_SENSOR)){
         Serial.println("Sensor frontal izquierdo");
+        LEFT_TURN();
     }
     if(!digitalRead(RR_SENSOR)){
         Serial.println("Sensor trasero derecho");
+        RIGHT_TURN();
     }
     if(!digitalRead(LR_SENSOR)){
         Serial.println("Sensor trasero izquierdo");
+        RIGHT_TURN();
     }
-
 
     /* CALCULATE PWM WITH PID */
     RFW_PID.Compute();
