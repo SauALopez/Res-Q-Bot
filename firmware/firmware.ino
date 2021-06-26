@@ -49,7 +49,7 @@ void setup(){
     /*CONFIG PID OBJECTS OF THE WHEELS */
 
     //FREQUENCY (ms) THAT THE PID CALCULATES 
-    //THE PWM FOR EACH WHEEL
+    //THE PWM FOR EACH WHEEL (#20MS)
     RFW_PID.SetSampleTime(SAMPLETIME);
     LFW_PID.SetSampleTime(SAMPLETIME);
     RRW_PID.SetSampleTime(SAMPLETIME);
@@ -59,9 +59,32 @@ void setup(){
     LFW_PID.SetMode(AUTOMATIC);
     RRW_PID.SetMode(AUTOMATIC);
     LRW_PID.SetMode(AUTOMATIC);
+
+    /* CONFIG SENSORS PINS */
+    pinMode(RF_SENSOR, INPUT_PULLUP);
+    pinMode(LF_SENSOR, INPUT_PULLUP);
+    pinMode(RR_SENSOR, INPUT_PULLUP);
+    pinMode(LR_SENSOR, INPUT_PULLUP);
 }
 
 void loop(){
+
+    /* POLLING SENSOR PINS */
+
+    if(!digitalRead(RF_SENSOR)){
+        Serial.println("Sensor frontal derecho");
+    }
+    if(!digitalRead(LF_SENSOR)){
+        Serial.println("Sensor frontal izquierdo");
+    }
+    if(!digitalRead(RR_SENSOR)){
+        Serial.println("Sensor trasero derecho");
+    }
+    if(!digitalRead(LR_SENSOR)){
+        Serial.println("Sensor trasero izquierdo");
+    }
+
+
     /* CALCULATE PWM WITH PID */
     RFW_PID.Compute();
     LFW_PID.Compute();
@@ -116,7 +139,34 @@ void BW_ALL(){
     digitalWrite(BW_RFW, HIGH);
     digitalWrite(BW_RRW, HIGH);
 }
+//FORDWARD TURNS
+void LEFT_TURN(){       
+    //LOW BACKWARD
+    digitalWrite(BW_LFW, LOW);
+    digitalWrite(BW_LRW, LOW);
+    digitalWrite(BW_RFW, LOW);
+    digitalWrite(BW_RRW, LOW);
+    //LOW FORDWARD LEFT WHEELS
+    digitalWrite(FW_LFW, LOW);
+    digitalWrite(FW_LRW, LOW);
+    //HIGH FORDWARD RIGHT WHEELS
+    digitalWrite(FW_RFW, HIGH);
+    digitalWrite(FW_RRW, HIGH);
+}
 
+void RIGHT_TURN(){
+    //LOW BACKWARD
+    digitalWrite(BW_LFW, LOW);
+    digitalWrite(BW_LRW, LOW);
+    digitalWrite(BW_RFW, LOW);
+    digitalWrite(BW_RRW, LOW);
+    //LOW FORDWARD RIGHT WHEELS
+    digitalWrite(FW_RFW, LOW);
+    digitalWrite(FW_RRW, LOW);
+    //HIGH FORDWARD LEFT WHEELS
+    digitalWrite(FW_LFW, HIGH);
+    digitalWrite(FW_LRW, HIGH);
+}
 
 /* INTERRUPT SUB ROUTINES */
 

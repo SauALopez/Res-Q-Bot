@@ -1,3 +1,10 @@
+/* PINS FOR SENSORS */
+
+#define RF_SENSOR 22
+#define LF_SENSOR 24
+#define RR_SENSOR 26
+#define LR_SENSOR 28
+
 /* INTERRUPT PINS FOR ENCODER */
 
 #define ENC_RFW 18      //right front wheel encoder
@@ -7,10 +14,10 @@
 
 /*PWM PINS FOR CONTROL OF WHEEL */
 
-#define RFW 13   // right front wheel
-#define LFW 12   // left front wheel
-#define RRW 11   // right rear wheel
-#define LRW 10   // left rear wheel
+#define RFW 13   // right front wheel pwm pin
+#define LFW 12   // left front wheel pwm pin
+#define RRW 11   // right rear wheel pwm pin
+#define LRW 10   // left rear wheel pwm pin
 
 /* ENABLE PINS, FORDWARD & BACKWARD MOVEMENT */
 
