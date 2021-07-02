@@ -30,7 +30,7 @@
 #define FW_RRW 5    //FORDWARD - RIGTH REAR WHEEL
 #define BW_RRW 4    //BACKWARD - RIGHT REAR WHEEL
 
-#define FW_LRW 3    //FORDWARD - LEFT REAR WHEEL
+#define FW_LRW 3   //FORDWARD - LEFT REAR WHEEL
 #define BW_LRW 2    //BACKWARD - LEFT REAR WHEEL
 
 /* VOLATILE VARIABLES FOR INTERUPTS */
@@ -47,10 +47,10 @@ volatile long last_RRW=0;
 volatile long last_LRW=0;
 
 /* PID - CONTROL SYSTEM VARIABLES */
-double kp = 1;
-double ki = 1;
-double kd = 1;
-double SetRPM =75;
+double kp = 0.61;
+double ki = 0.31;
+double kd = 0.13;
+double SetRPM =90;
 
 double PWM_RFW=0;
 double PWM_LFW=0;
@@ -58,5 +58,3 @@ double PWM_RRW=0;
 double PWM_LRW=0;
 
 #define SAMPLETIME 20
-
-

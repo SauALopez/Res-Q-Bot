@@ -23,10 +23,10 @@ void setup(){
     pinMode(ENC_RRW, INPUT_PULLUP);
     pinMode(ENC_LRW, INPUT_PULLUP);
     /* ATTACHING PINS TO INTERRUPTION SUB ROUTINE*/
-    attachInterrupt(digitalPinToInterrupt(ENC_RFW),ISRENC_RFW, FALLING);
-    attachInterrupt(digitalPinToInterrupt(ENC_LFW),ISRENC_LFW, FALLING);
-    attachInterrupt(digitalPinToInterrupt(ENC_RRW),ISRENC_RRW, FALLING);
-    attachInterrupt(digitalPinToInterrupt(ENC_LRW),ISRENC_LRW, FALLING);
+    attachInterrupt(digitalPinToInterrupt(ENC_RFW),ISRENC_RFW, RISING);
+    attachInterrupt(digitalPinToInterrupt(ENC_LFW),ISRENC_LFW, RISING);
+    attachInterrupt(digitalPinToInterrupt(ENC_RRW),ISRENC_RRW, RISING);
+    attachInterrupt(digitalPinToInterrupt(ENC_LRW),ISRENC_LRW, RISING);
     /* CONFIG OUTPUT PWM PINS */
     pinMode(RFW, OUTPUT);
     pinMode(LFW, OUTPUT);
@@ -67,11 +67,21 @@ void setup(){
     pinMode(LF_SENSOR, INPUT_PULLUP);
     pinMode(RR_SENSOR, INPUT_PULLUP);
     pinMode(LR_SENSOR, INPUT_PULLUP);
+
+    //Serial.println('All good, lets go');
+    FW_ALL();
+    analogWrite(LFW, 64);
+    analogWrite(LRW, 64);
+    analogWrite(RFW, 64);
+    analogWrite(RRW, 64);
 }
 
 void loop(){
+
+    //STOP();
     FW_ALL();
     /* POLLING SENSOR PINS */
+    /*
     if(!digitalRead(RF_SENSOR)){
         Serial.println("Sensor frontal derecho");
         LEFT_TURN();
@@ -88,35 +98,49 @@ void loop(){
         Serial.println("Sensor trasero izquierdo");
         RIGHT_TURN();
     }
-
+    */
     /* CALCULATE PWM WITH PID */
+    
     RFW_PID.Compute();
     LFW_PID.Compute();
     RRW_PID.Compute();
     LRW_PID.Compute();
-
-    /*Serial DEBUG
-    Serial.println(PWM_LFW);
-    Serial.println(PWM_LRW);
-    Serial.println(PWM_RFW);
-    Serial.println(PWM_RRW);
-    delay(1000);
-    */
+    
+    
+    
 
     /* CHANGING PWM VALUE OF WHELS */
-    analogWrite(RFW, PWM_RFW);
-    analogWrite(LFW, PWM_LFW);
+    
+    analogWrite(LFW, 0);
+    analogWrite(LRW, 0);
+    analogWrite(RFW, 0);
     analogWrite(RRW, PWM_RRW);
-    analogWrite(LRW, PWM_LRW);
 
+    /*Serial DEBUG*/
+    //Serial.println(RPM_LFW);
+    //Serial.println(RPM_LRW);
+    //Serial.println(RPM_RFW);
+    Serial.println(RPM_RRW);
 
-   
 }
 
 
 
 
+
 /* FUNCTION TO CONTROL THE DIRECTION OF THE WHEELS */
+void STOP(){
+    //LOW BACKWARD
+    digitalWrite(BW_LFW, LOW);
+    digitalWrite(BW_LRW, LOW);
+    digitalWrite(BW_RFW, LOW);
+    digitalWrite(BW_RRW, LOW);
+    //LOW FORDWARD
+    digitalWrite(FW_LFW, LOW);
+    digitalWrite(FW_LRW, LOW);
+    digitalWrite(FW_RFW, LOW);
+    digitalWrite(FW_RRW, LOW);
+}
 
 void FW_ALL(){
     //LOW BACKWARD
@@ -176,29 +200,32 @@ void RIGHT_TURN(){
 
 void ISRENC_RFW(){      // ISR FOR RIGHT FRONT WHEEL
 
-    long t = millis()- last_RFW;
-    RPM_RFW = 60000/t;      //CONVERT 1 REVOLUTION IN RPM
-    last_RFW = millis();
+    long t = micros()- last_RFW;
+    RPM_RFW = (60000000)/(t * 370);      //CONVERT 1 REVOLUTION IN RPM
+    last_RFW = micros();
 
 }
 void ISRENC_LFW(){      // ISR FOR LEFT FRONT WHEEL
 
-    long t = millis()- last_LFW;
-    RPM_LFW = 60000/t;
-    last_LFW = millis();
+    long t = micros()- last_LFW;
+    RPM_LFW = (60000000)/(t * 370);
+    last_LFW = micros();
 
 }
 void ISRENC_RRW(){      // ISR FOR RIGHT REAR WHEEL
 
-    long t = millis()- last_RRW;
-    RPM_RRW = 60000/t;
-    last_RRW = millis();
+    long t = micros()- last_RRW;
+    RPM_RRW = (60000000)/(t * 370);
+    last_RRW = micros();
+    //Serial.print(RPM_RRW);
+    //Serial.print(" , ");
+    //Serial.println(t);
 
 }
 void ISRENC_LRW(){      // ISR FOR LEFT REAR WHEEL
 
-    long t = millis()- last_LRW;
-    RPM_LRW = 60000/t;
-    last_LRW = millis();
+    long t = micros()- last_LRW;
+    RPM_LRW = (60000000)/(t * 370);
+    last_LRW = micros();
 
 }
