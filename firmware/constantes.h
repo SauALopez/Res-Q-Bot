@@ -21,11 +21,11 @@
 
 /* ENABLE PINS, FORDWARD & BACKWARD MOVEMENT */
 
-#define FW_RFW 9    //FORDWARD - RIGHT FRONT WHEEL
-#define BW_RFW 8    //BACKWARD - RIGHT FRONT WHEEL
+#define FW_RFW 8    //FORDWARD - RIGHT FRONT WHEEL
+#define BW_RFW 9    //BACKWARD - RIGHT FRONT WHEEL
 
-#define FW_LFW 7    //FORDWARD - LEFT FRONT WHEEL
-#define BW_LFW 6    //BACKWARD - LEFT FRONT WHEEL
+#define FW_LFW 6    //FORDWARD - LEFT FRONT WHEEL
+#define BW_LFW 7    //BACKWARD - LEFT FRONT WHEEL
 
 #define FW_RRW 5    //FORDWARD - RIGTH REAR WHEEL
 #define BW_RRW 4    //BACKWARD - RIGHT REAR WHEEL
@@ -47,10 +47,13 @@ volatile long last_RRW=0;
 volatile long last_LRW=0;
 
 /* PID - CONTROL SYSTEM VARIABLES */
-double kp = 0.61;
+double kp = 0.71;
 double ki = 0.31;
 double kd = 0.13;
-double SetRPM =90;
+double SetRPM_RFW = 40;
+double SetRPM_LFW = 40;
+double SetRPM_RRW = 40;
+double SetRPM_LRW = 40;
 
 double PWM_RFW=0;
 double PWM_LFW=0;
